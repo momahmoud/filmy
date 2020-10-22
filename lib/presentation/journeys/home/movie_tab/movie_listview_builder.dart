@@ -1,0 +1,36 @@
+import 'package:filmy/domain/entities/movie_entity.dart';
+import 'package:filmy/presentation/journeys/home/movie_tab/movie_tab_card_widget.dart';
+import 'package:flutter/material.dart';
+import '../../../../common/extensions/size_extensions.dart';
+
+class MovieListviewBuilder extends StatelessWidget {
+  final List<MovieEntity> movies;
+
+  const MovieListviewBuilder({Key key, @required this.movies})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.symmetric(vertical: 6.h),
+      child: ListView.separated(
+        shrinkWrap: true,
+        itemCount: movies.length,
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (context, index) {
+          return SizedBox(
+            width: 14.w,
+          );
+        },
+        itemBuilder: (context, index) {
+          final MovieEntity movie = movies[index];
+          return MovieTabCardWidget(
+            movieId: movie.id,
+            title: movie.title,
+            posterPath: movie.posterPath,
+          );
+        },
+      ),
+    );
+  }
+}

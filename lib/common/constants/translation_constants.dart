@@ -12,4 +12,8 @@ class TranslationConstants{
   static const String ar = 'arabic';
   static const String aboutDescription = 'aboutDescription';
   static const String ok = 'okay';
+  static const String retry = 'retry';
+  static const String somethingWentWrong = 'somethingWentWrong';
+  static const String chechNetwork = 'chechNetwork';
+  static const String noMovies = 'noMovies';
 }

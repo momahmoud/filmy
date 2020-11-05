@@ -9,5 +9,9 @@
     "okay": "Okay",
     "arabic": "Arabic",
     "english": "English",
+    "retry": "Retry",
+    "somethingWentWrong": "Something went wrong...",
+    "chechNetwork": "Please check your network connection and press Retry",
+    "noMovies": "Sorry, no movies under this section",
     "aboutDescription": "This product uses the TMDb API but is not endorsed or certified by TMDb. This app is developed for education purpose."
 }

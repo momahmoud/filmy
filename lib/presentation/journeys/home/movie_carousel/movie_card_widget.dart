@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:filmy/common/constants/size_constants.dart';
 import 'package:filmy/data/core/api_constants.dart';
+import 'package:filmy/presentation/journeys/movie_detail/movie_detail_arguments.dart';
+import 'package:filmy/presentation/journeys/movie_detail/movie_detail_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../../common/extensions/size_extensions.dart';
 
@@ -11,19 +13,28 @@ class MovieCardWidget extends StatelessWidget {
     Key key,
     @required this.posterPath,
     @required this.movieId,
-  }): super(key : key);
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      
-       borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
+      borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
       elevation: 32,
-          child: GestureDetector(
-        onTap: (){},
-            child: ClipRRect(
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => MovieDetailScreen(
+                movieDetailArguments: MovieDetailArguments(
+                  movieId,
+                ),
+              ),
+            ),
+          );
+        },
+        child: ClipRRect(
           borderRadius: BorderRadius.circular(Sizes.dimen_16.w),
-              child: CachedNetworkImage(
+          child: CachedNetworkImage(
             imageUrl: '${ApiConstants.BASE_IMAGE_URL}$posterPath',
             fit: BoxFit.cover,
           ),

@@ -3,6 +3,7 @@ import 'package:filmy/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart
 import 'package:filmy/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
 import 'package:filmy/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
 import 'package:filmy/presentation/journeys/drawer/navigation_drawer.dart';
+import 'package:filmy/presentation/journeys/home/movie_carousel/carousel_load_error_widget.dart';
 import 'package:filmy/presentation/journeys/home/movie_tab/movie_tab_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,6 +73,11 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: MovieTabWidget()
                   )
                 ],
+              );
+            }else if(state is MovieCarouselError){
+              return CarouselLoadErrorWidget(
+                onPressed: () => movieCarouselBloc.add(CarouselLoadEvent()),
+                errorType: state.errorType,
               );
             }
             return SizedBox.shrink();

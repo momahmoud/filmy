@@ -3,12 +3,14 @@ import 'package:filmy/data/data_source/movie_data_source.dart';
 import 'package:filmy/data/repositories/movie_repository_implement.dart';
 import 'package:filmy/domain/repositories/movie_repository.dart';
 import 'package:filmy/domain/useCase/get_coming_soon.dart';
+import 'package:filmy/domain/useCase/get_movie_detail.dart';
 import 'package:filmy/domain/useCase/get_playing_now.dart';
 import 'package:filmy/domain/useCase/get_popular.dart';
 import 'package:filmy/domain/useCase/get_trending.dart';
 import 'package:filmy/presentation/blocs/language_bloc/language_bloc.dart';
 import 'package:filmy/presentation/blocs/movie_backdrop/movie_backdrop_bloc.dart';
 import 'package:filmy/presentation/blocs/movie_carousel/movie_carousel_bloc.dart';
+import 'package:filmy/presentation/blocs/movie_detail/movie_detail_bloc.dart';
 import 'package:filmy/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart';
@@ -38,12 +40,20 @@ Future init() async {
       getTrending: getItInstance(),
     ),
   );
-  getItInstance.registerFactory(() => MovieBackdropBloc());
-   getItInstance.registerFactory(() => MovieTabbedBloc(
-     getComingSoon: GetComingSoon(getItInstance()),
-     getPlayingNow: GetPlayingNow(getItInstance()),
-     getPopular: GetPopular(getItInstance()),
-   ));
 
-   getItInstance.registerSingleton<LanguageBloc>(LanguageBloc());
+  getItInstance.registerFactory(() => MovieBackdropBloc());
+
+  getItInstance.registerFactory(() => MovieTabbedBloc(
+        getComingSoon: getItInstance(),
+        getPlayingNow: getItInstance(),
+        getPopular: getItInstance(),
+      ));
+
+  getItInstance.registerSingleton<LanguageBloc>(LanguageBloc());
+
+  getItInstance
+      .registerFactory(() => MovieDetailBloc(getMovieDetail: getItInstance()));
+
+  getItInstance.registerLazySingleton<GetMovieDetail>(
+      () => GetMovieDetail(getItInstance()));
 }

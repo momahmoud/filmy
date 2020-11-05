@@ -1,5 +1,8 @@
 import 'package:filmy/common/constants/size_constants.dart';
+import 'package:filmy/common/extensions/string_extensions.dart';
+import 'package:filmy/common/constants/translation_constants.dart';
 import 'package:filmy/presentation/blocs/movie_tabbed/movie_tabbed_bloc.dart';
+import 'package:filmy/presentation/journeys/home/movie_carousel/carousel_load_error_widget.dart';
 import 'package:filmy/presentation/journeys/home/movie_tab/movie_tab_constants.dart';
 import 'package:filmy/presentation/journeys/home/movie_tab/tab_title_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,14 +48,36 @@ class _MovieTabWidgetState extends State<MovieTabWidget>
                     TabTitleWidget(
                       title: MovieTabConstants.movieTabs[i].title,
                       onTap: () => _onTab(i),
-                      isSelected: MovieTabConstants.movieTabs[i].index == state.currentTabIndex,
+                      isSelected: MovieTabConstants.movieTabs[i].index ==
+                          state.currentTabIndex,
                     ),
                 ],
               ),
-              if(state is MovieTabChanged)
-              Expanded(
-                child: MovieListviewBuilder(movies: state.movies),
-              ),
+              if (state is MovieTabChanged)
+                state.movies?.isEmpty ?? true
+                    ? Expanded(
+                        child: Center(
+                          child: Text(
+                            TranslationConstants.noMovies.t(context),
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context).textTheme.subtitle1,
+                          ),
+                        ),
+                      )
+                    : Expanded(
+                        child: MovieListviewBuilder(movies: state.movies),
+                      ),
+              if (state is MovieTabLoadError)
+                Expanded(
+                  child: CarouselLoadErrorWidget(
+                    onPressed: () => movieTabbedBloc.add(
+                      MovieTabChangedEvent(
+                        currentTabIndex: state.currentTabIndex,
+                      ),
+                    ),
+                    errorType: state.errorType,
+                  ),
+                ),
             ],
           ),
         );
@@ -60,7 +85,7 @@ class _MovieTabWidgetState extends State<MovieTabWidget>
     );
   }
 
-  void _onTab(int index){
+  void _onTab(int index) {
     movieTabbedBloc.add(MovieTabChangedEvent(currentTabIndex: index));
   }
 }

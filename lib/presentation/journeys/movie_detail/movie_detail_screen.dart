@@ -58,7 +58,7 @@ class _MovieDetailScreenState extends State<MovieDetailScreen> {
                     BigPoster(
                       movie: movieDetail,
                     ),
-                    Padding(
+                    Padding( 
                       padding: EdgeInsets.symmetric(
                         horizontal: Sizes.dimen_16.w,
                       ),
